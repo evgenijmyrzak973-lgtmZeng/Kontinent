@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Континент — политическая стратегия</title>
+<style>
+:root{--bg:#10151c;--panel:#19222d;--panel2:#202c39;--line:#344354;--text:#e8eef5;--muted:#9eacbb;--gold:#e4b65c;--green:#6fc69a;--red:#e47b7b;--blue:#78aee8}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#1b2a38 0,#10151c 58%);color:var(--text);font:14px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}
+button,select{font:inherit}button{border:1px solid var(--line);background:#263544;color:var(--text);padding:9px 12px;border-radius:8px;cursor:pointer}button:hover{border-color:var(--gold);background:#304357}button:disabled{opacity:.4;cursor:not-allowed}
+header{padding:14px 16px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;justify-content:space-between;background:#121a23eF;position:sticky;top:0;z-index:4}
+.brand{font-weight:900;letter-spacing:.12em;color:var(--gold);font-size:17px}.subtitle{color:var(--muted);font-size:11px}
+.topstats{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.stat{background:var(--panel);border:1px solid var(--line);padding:6px 9px;border-radius:8px;min-width:76px}.stat b{display:block;font-size:15px}.stat span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+main{max-width:1440px;margin:auto;padding:14px;display:grid;grid-template-columns: minmax(240px, .85fr) minmax(300px,1.3fr) minmax(260px,.9fr);gap:12px}
+.panel{background:linear-gradient(160deg,#1b2632,#17202a);border:1px solid var(--line);border-radius:12px;overflow:hidden;min-width:0}.panel h2{font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin:0;padding:12px 14px;border-bottom:1px solid var(--line)}.pad{padding:13px}
+.country{display:flex;gap:10px;align-items:center;margin-bottom:12px}.flag{font-size:30px}.country h3{margin:0;font-size:16px}.country small{color:var(--muted)}
+.meter{height:8px;background:#0e141b;border-radius:20px;overflow:hidden;margin:5px 0 10px}.meter i{display:block;height:100%;background:var(--green);border-radius:20px}.meter.gold i{background:var(--gold)}.meter.blue i{background:var(--blue)}
+.rowline{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:12px}.rowline strong{color:var(--text)}
+.mapwrap{padding:10px;background:#111a23}.map{width:100%;height:auto;display:block;border-radius:8px;background:#172a32;border:1px solid #344c55}
+.region{cursor:pointer;stroke:#101820;stroke-width:3;transition:filter .15s}.region:hover{filter:brightness(1.22);stroke:#fff;stroke-width:4}.region.selected{stroke:#f5d17d;stroke-width:5}
+.mapkey{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:11px;padding:8px 2px 0}.dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px}
+.tabs{display:flex;gap:5px;padding:9px;border-bottom:1px solid var(--line);overflow:auto}.tabs button{white-space:nowrap;padding:7px 10px;font-size:12px}.tabs button.active{background:#3a4b5b;border-color:var(--gold);color:#ffe0a1}
+.section{display:none}.section.active{display:block}
+.card{background:#202d39;border:1px solid #354657;border-radius:9px;padding:10px;margin-bottom:8px}.card h3{margin:0 0 4px;font-size:14px}.card p{margin:4px 0;color:var(--muted);font-size:12px}.tag{font-size:10px;color:var(--gold);text-transform:uppercase;letter-spacing:.08em}.action{width:100%;margin-top:7px}.action.primary{background:#80612e;border-color:#b58a43;color:#fff4d7}
+.log{max-height:230px;overflow:auto;font-size:12px;color:var(--muted)}.log div{padding:7px 0;border-bottom:1px solid #2b3947}.log b{color:var(--text)}
+.notice{padding:9px 10px;border-radius:8px;background:#253544;color:#c8d9e8;font-size:12px;margin-bottom:9px}
+footer{max-width:1440px;margin:0 auto;padding:0 14px 18px;color:#7f8e9c;font-size:11px}
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#f1d18a;color:#17202a;padding:10px 15px;border-radius:9px;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s;z-index:10}#toast.show{opacity:1}
+@media(max-width:900px){main{grid-template-columns:1fr 1fr}.center{grid-column:1/-1;grid-row:1}.left{grid-column:1}.right{grid-column:2}}
+@media(max-width:600px){header{align-items:flex-start;flex-direction:column}.topstats{justify-content:flex-start}.stat{min-width:68px}main{display:flex;flex-direction:column;padding:9px}.center{order:0}.left{order:1}.right{order:2}.map{max-height:310px}.log{max-height:180px}}
+</style>
+</head>
+<body>
+<header>
+ <div><div class="brand">К О Н Т И Н Е Н Т</div><div class="subtitle">Политическая стратегия · альтернативная история · 2032 год</div></div>
+ <div class="topstats">
+  <div class="stat"><span>Дата</span><b id="date">Янв. 2032</b></div>
+  <div class="stat"><span>Казна</span><b id="money">120</b></div>
+  <div class="stat"><span>Стабильность</span><b id="stability">72%</b></div>
+  <div class="stat"><span>Очки влияния</span><b id="influence">35</b></div>
+  <button id="nextTurn" class="primary">Следующий месяц ▶</button>
+ </div>
+</header>
+<main>
+ <section class="panel left">
+  <h2>Государство</h2><div class="pad">
+   <div class="country"><div class="flag">🟦</div><div><h3>Республика Вестория</h3><small>Столица: Арден · Правительство: коалиционное</small></div></div>
+   <div class="rowline"><span>Поддержка правительства</span><strong id="supportText">54%</strong></div><div class="meter"><i id="supportBar" style="width:54%"></i></div>
+   <div class="rowline"><span>Стабильность</span><strong id="stabText">72%</strong></div><div class="meter gold"><i id="stabBar" style="width:72%"></i></div>
+   <div class="rowline"><span>Экономика</span><strong id="economyText">68 / 100</strong></div><div class="meter blue"><i id="economyBar" style="width:68%"></i></div>
+   <div class="rowline"><span>Общественное доверие</span><strong id="trustText">61%</strong></div><div class="meter"><i id="trustBar" style="width:61%"></i></div>
+   <div class="card"><div class="tag">Национальная повестка</div><h3 id="focusName">Модернизация инфраструктуры</h3><p id="focusDesc">Инвестиции в транспорт и энергетику повышают долгосрочную эффективность экономики.</p><button class="action" id="changeFocus">Сменить приоритет</button></div>
+   <div class="card"><div class="tag">Выбранный регион</div><h3 id="regionName">Арден</h3><p id="regionDesc">Столичный регион. Администрация, университеты и крупнейший деловой центр.</p></div>
+   <button class="action" id="saveBtn">💾 Сохранить партию</button>
+   <button class="action" id="loadBtn">↻ Загрузить сохранение</button>
+  </div>
+ </section>
+ <section class="panel center">
+  <h2>Политическая карта континента</h2>
+  <div class="mapwrap">
+   <svg class="map" viewBox="0 0 720 440" role="img" aria-label="Карта вымышленного континента">
+    <defs><pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#27404a" stroke-width="1"/></pattern></defs>
+    <rect width="720" height="440" fill="url(#grid)"/>
+    <path d="M65 92 L140 48 235 65 286 35 360 70 422 48 505 91 590 80 660 145 631 220 671 281 590 350 500 329 440 385 351 352 270 388 194 345 115 356 50 270 80 190Z" fill="#243b3d" stroke="#52706b" stroke-width="2"/>
+    <path class="region selected" data-region="arden" d="M260 115 L365 94 410 155 380 225 290 230 235 180Z" fill="#397d9a"/>
+    <path class="region" data-region="north" d="M140 48 L235 65 286 35 360 70 365 94 260 115 235 180 170 160 100 130Z" fill="#4a7187"/>
+    <path class="region" data-region="west" d="M65 92 L140 48 100 130 170 160 150 245 80 190 50 270Z" fill="#557b65"/>
+    <path class="region" data-region="east" d="M410 155 L505 91 590 80 660 145 631 220 545 235 470 205 380 225Z" fill="#8a704b"/>
+    <path class="region" data-region="south" d="M150 245 L170 160 235 180 290 230 380 225 470 205 545 235 590 350 500 329 440 385 351 352 270 388 194 345 115 356 50 270Z" fill="#76608b"/>
+    <path d="M330 158 l8 -14 8 14 -8 14Z" fill="#ffe1a0" stroke="#fff" stroke-width="1.5"/><text x="347" y="154" fill="#fff" font-size="13" font-weight="bold">АРДЕН</text>
+    <text x="190" y="105" fill="#dce8ef" font-size="12">СЕВЕР</text><text x="90" y="215" fill="#dce8ef" font-size="12">ЗАПАД</text><text x="520" y="160" fill="#fff1d8" font-size="12">ВОСТОК</text><text x="335" y="310" fill="#f0e5fa" font-size="12">ЮГ</text>
+    <path d="M30 410 Q180 390 290 415 T690 405" fill="none" stroke="#4d8291" stroke-width="3" opacity=".6"/>
+   </svg>
+   <div class="mapkey"><span><i class="dot" style="background:#397d9a"></i>Вестория</span><span><i class="dot" style="background:#4a7187"></i>Северный край</span><span><i class="dot" style="background:#557b65"></i>Западная лига</span><span><i class="dot" style="background:#8a704b"></i>Восточная республика</span><span><i class="dot" style="background:#76608b"></i>Южный союз</span></div>
+  </div>
+  <div class="tabs">
+   <button class="active" data-tab="overview">Обзор</button><button data-tab="politics">Политика</button><button data-tab="economy">Экономика</button><button data-tab="diplomacy">Дипломатия</button>
+  </div>
+  <div class="pad">
+   <div class="section active" id="overview"><div class="notice">📌 Твоя задача — удерживать стабильность, развивать экономику и выстраивать отношения с соседями. Каждый ход равен одному месяцу.</div><div class="card"><h3>Ситуация в стране</h3><p id="situation">Коалиция сохраняет большинство, но общество ждёт экономических реформ.</p></div><div class="card"><h3>Цель кампании</h3><p>Продержаться 24 месяца, сохранив стабильность выше 35% и поддержку правительства выше 30%.</p></div></div>
+   <div class="section" id="politics">
+    <div class="card"><div class="tag">Внутренняя политика</div><h3>Пакет реформ</h3><p>Выбери политическое решение. Каждое решение меняет показатели страны.</p><button class="action" onclick="decision('reform')">Провести административную реформу · 20 казны</button><button class="action" onclick="decision('dialogue')">Национальный диалог · 10 влияния</button><button class="action" onclick="decision('media')">Открытая пресс-конференция · бесплатно</button></div>
+    <div class="card"><h3>Парламент</h3><p>Коалиция: 54% мест · Оппозиция: 46% мест</p><p id="parliament">Следующее голосование через 3 месяца.</p></div>
+   </div>
+   <div class="section" id="economy">
+    <div class="card"><div class="tag">Экономическая политика</div><h3>Инвестиции</h3><p>Вкладывай казну в развитие гражданских отраслей.</p><button class="action" onclick="decision('industry')">Поддержать промышленность · 25 казны</button><button class="action" onclick="decision('education')">Гранты университетам · 20 казны</button><button class="action" onclick="decision('tax')">Временное снижение налогов · 15 казны</button></div>
+    <div class="card"><h3>Бюджет</h3><p id="budgetText">Доходы: 18 / месяц · Расходы: 12 / месяц</p></div>
+   </div>
+   <div class="section" id="diplomacy">
+    <div class="card"><div class="tag">Международные отношения</div><h3 id="dipCountry">Северный край</h3><p id="dipDesc">Сосед с развитой промышленностью. Отношения прохладные, но торговля растёт.</p><button class="action" onclick="decision('trade')">Предложить торговое соглашение · 12 влияния</button><button class="action" onclick="decision('summit')">Организовать дипломатический саммит · 18 влияния</button></div>
+    <div class="card"><h3>Региональное сотрудничество</h3><p id="relations">Отношения с соседями: 42 / 100</p></div>
+   </div>
+  </div>
+ </section>
+ <section class="panel right">
+  <h2>События и решения</h2><div class="pad">
+   <div class="card"><div class="tag">Событие месяца</div><h3 id="eventTitle">Дебаты о бюджете</h3><p id="eventDesc">Парламент обсуждает распределение средств на следующий квартал.</p><button class="action primary" id="eventChoice">Поддержать инвестиции</button></div>
+   <div class="rowline" style="margin:12px 0 7px"><strong>Журнал кампании</strong><span id="turnLabel">Ход 1 / 24</span></div>
+   <div class="log" id="log"><div><b>Январь 2032.</b> Новое правительство приступило к работе.</div><div>Экономика стабильна, но коалиции нужно укрепить доверие граждан.</div></div>
+   <div class="card" style="margin-top:12px"><div class="tag">Подсказка</div><p>Не трать всю казну сразу. Ежемесячный баланс влияет на экономику и поддержку правительства.</p></div>
+  </div>
+ </section>
+</main>
+<footer>КОНТИНЕНТ — оригинальная вымышленная стратегия. Политические фракции, страны и события созданы для игры и не описывают реальные государства.</footer>
+<div id="toast"></div>
+<script>
+const state={turn:1,money:120,stability:72,influence:35,support:54,economy:68,trust:61,relations:42,region:'arden',focus:0,done:false};
+const months=['Янв.','Фев.','Мар.','Апр.','Май','Июн.','Июл.','Авг.','Сен.','Окт.','Ноя.','Дек.'];
+const regions={arden:['Арден','Столичный регион. Администрация, университеты и крупнейший деловой центр.'],north:['Северный край','Промышленный регион с развитой сетью железных дорог.'],west:['Западная лига','Сельскохозяйственный и торговый регион.'],east:['Восточная республика','Регион портов, логистики и внешней торговли.'],south:['Южный союз','Регион университетов, туризма и энергетики.']};
+const focuses=[['Модернизация инфраструктуры','Инвестиции в транспорт и энергетику повышают долгосрочную эффективность экономики.'],['Социальные гарантии','Поддержка общественных услуг постепенно укрепляет доверие граждан.'],['Научное развитие','Исследования и образование создают основу для будущего роста.']];
+let logItems=['<b>Январь 2032.</b> Новое правительство приступило к работе.','Экономика стабильна, но коалиции нужно укрепить доверие граждан.'];
+function clamp(v){return Math.max(0,Math.min(100,v))}
+function toast(t){let el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1800)}
+function log(t){logItems.unshift(t);document.getElementById('log').innerHTML=logItems.slice(0,18).map(x=>'<div>'+x+'</div>').join('')}
+function render(){
+ document.getElementById('date').textContent=months[(state.turn-1)%12]+' '+(2032+Math.floor((state.turn-1)/12));
+ for(let [id,val] of [['money',state.money],['stability',state.stability+'%'],['influence',state.influence],['supportText',state.support+'%'],['stabText',state.stability+'%'],['economyText',state.economy+' / 100'],['trustText',state.trust+'%'],['relations',`Отношения с соседями: ${state.relations} / 100`]])document.getElementById(id).textContent=val;
+ for(let [id,val] of [['supportBar',state.support],['stabBar',state.stability],['economyBar',state.economy],['trustBar',state.trust]])document.getElementById(id).style.width=val+'%';
+ document.getElementById('regionName').textContent=regions[state.region][0];document.getElementById('regionDesc').textContent=regions[state.region][1];
+ document.getElementById('focusName').textContent=focuses[state.focus][0];document.getElementById('focusDesc').textContent=focuses[state.focus][1];
+ document.getElementById('turnLabel').textContent=`Ход ${state.turn} / 24`;
+ document.getElementById('nextTurn').disabled=state.done;
+ document.querySelectorAll('.region').forEach(x=>x.classList.toggle('selected',x.dataset.region===state.region));
+ document.getElementById('budgetText').textContent=`Доходы: ${Math.round(15+state.economy/20)} / месяц · Расходы: 12 / месяц`;
+}
+document.querySelectorAll('.region').forEach(el=>el.addEventListener('click',()=>{state.region=el.dataset.region;render()}));
+document.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-tab]').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));btn.classList.add('active');document.getElementById(btn.dataset.tab).classList.add('active')}));
+document.getElementById('changeFocus').onclick=()=>{state.focus=(state.focus+1)%focuses.length;toast('Приоритет изменён');render()};
+function decision(type){
+ const costs={reform:20,industry:25,education:20,tax:15};const influenceCosts={dialogue:10,trade:12,summit:18};
+ if(costs[type]&&state.money<costs[type])return toast('Недостаточно средств');
+ if(influenceCosts[type]&&state.influence<influenceCosts[type])return toast('Недостаточно влияния');
+ if(costs[type])state.money-=costs[type];if(influenceCosts[type])state.influence-=influenceCosts[type];
+ const effects={
+ reform:['Административная реформа принята. Управленческие процессы стали эффективнее.',{stability:3,trust:3,economy:2}],
+ dialogue:['Национальный диалог прошёл конструктивно.',{stability:5,support:3,trust:4}],
+ media:['Пресс-конференция повысила прозрачность решений.',{trust:4,support:2}],
+ industry:['Программа поддержки промышленности запущена.',{economy:6,support:2}],
+ education:['Университеты получили гранты на исследования.',{economy:3,trust:5}],
+ tax:['Налоговая нагрузка временно снижена.',{support:4,trust:2,economy:-2}],
+ trade:['Соседи согласились начать переговоры о торговле.',{relations:8,economy:3}],
+ summit:['Дипломатический саммит укрепил региональное сотрудничество.',{relations:12,stability:2}]
+ };
+ let [msg,changes]=effects[type];for(let k in changes)state[k]=clamp(state[k]+changes[k]);log(msg);render();toast('Решение принято');
+}
+document.getElementById('eventChoice').onclick=()=>{state.trust=clamp(state.trust+3);state.economy=clamp(state.economy+1);log('Бюджетный компромисс принят: доверие и экономика немного выросли.');document.getElementById('eventTitle').textContent='Обсуждение завершено';document.getElementById('eventDesc').textContent='Компромисс позволил избежать затяжного спора.';document.getElementById('eventChoice').disabled=true;render()};
+document.getElementById('nextTurn').onclick=()=>{
+ if(state.done)return;state.turn++;let income=Math.round(15+state.economy/20);state.money+=income-12;state.influence+=3;
+ if(state.focus===0)state.economy=clamp(state.economy+1);if(state.focus===1)state.trust=clamp(state.trust+1);if(state.focus===2)state.economy=clamp(state.economy+1);
+ if(state.money<30){state.stability=clamp(state.stability-3);state.support=clamp(state.support-2);log('Бюджетное давление: резервы страны сокращаются.')}
+ else {state.stability=clamp(state.stability+1);if(state.turn%3===0)state.support=clamp(state.support+1)}
+ document.getElementById('eventTitle').textContent=['Транспортная реформа','Спор в парламенте','Рост экспорта','Студенческий форум','Переговоры с соседями'][Math.floor(Math.random()*5)];
+ document.getElementById('eventDesc').textContent=['Региональные власти предлагают обновить транспортную сеть.','Оппозиция требует дополнительных публичных слушаний.','Экспортные компании сообщают о росте заказов.','Университеты предлагают новую программу обмена.','Соседние страны приглашают Весторию к переговорам.'][Math.floor(Math.random()*5)];
+ document.getElementById('eventChoice').disabled=false;document.getElementById('eventChoice').textContent='Выбрать компромисс';
+ log(`${months[(state.turn-1)%12]} ${2032+Math.floor((state.turn-1)/12)}: бюджетный баланс ${income-12>=0?'+':''}${income-12}.`);
+ if(state.stability<20||state.support<15){state.done=true;log('<b>Политический кризис.</b> Правительство потеряло возможность управлять страной. Кампания завершена.');toast('Кампания завершена: политический кризис')}
+ else if(state.turn>=24){state.done=true;log('<b>Кампания завершена.</b> Вестория прошла двухлетний политический цикл.');toast('Кампания завершена!')}
+ render();
+};
+document.getElementById('saveBtn').onclick=()=>{localStorage.setItem('continentSave',JSON.stringify({state,logItems}));toast('Сохранение записано')};
+document.getElementById('loadBtn').onclick=()=>{let raw=localStorage.getItem('continentSave');if(!raw)return toast('Сохранение не найдено');let data=JSON.parse(raw);Object.assign(state,data.state);logItems=data.logItems||[];render();document.getElementById('log').innerHTML=logItems.map(x=>'<div>'+x+'</div>').join('');toast('Сохранение загружено')};
+render();
+</script>
+</body></html>
